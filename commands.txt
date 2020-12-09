@@ -1,0 +1,31 @@
+#for Redhat GUI
+
+>> Installing Server with GUI : yum group install "Server with GUI"
+
+>> Installing xrdp and tigervnc server : yum install xrdp tigervnc-server
+
+>> for starting and enabling xrdp : systemctl start xrdp ; systemctl enable xrdp
+
+>> for setting graphical target : systemctl set-default graphical.target
+
+#for amazon linux GUI
+
+>> Installing MATE Desktop : amazon-linux-extras install mate-desktop1.x
+
+>> Defining MATE for all the users : bash -c 'echo PREFERRED=/usr/bin/mate-session > /etc/sysconfig/desktop'
+
+>> Installing Tiger VNC : yum install tigervnc-server
+
+>> Setting Tiger VNC password : vncpasswd
+
+>> Setting Display No for VNC Server : vncserver :1
+
+>> Creating new systemD unirt : cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@.service
+
+>> to replace all occurences of user in the new unit with ec2-user : sed -i 's/<USER>/ec2-user/' /etc/systemd/system/vncserver@.service
+
+>> for reloading systemD : systemctl daemon-reload
+
+>> for start and enabling the VNC Service : systemctl start vncserver@:1 ; systemctl enable vncserver@:1
+
+>> SSH Login from windows to EC2 Instance : ssh -L 5901:localhost:5901 -i PEM_FILE ec2-user@INSTANCE_IP
